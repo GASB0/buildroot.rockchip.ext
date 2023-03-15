@@ -1,0 +1,32 @@
+#!/bin/bash
+
+bridgeName="br0"
+etherInterface="eth0"
+
+if [ "$1" == "start" ]; then
+  # Loading g_ether and creating the appropriate network interface
+  modprobe dwc3-of-simple
+  modprobe dwc3-rockchip-inno
+
+  modprobe g_ether dev_addr=12:34:56:78:9a:bc host_addr=12:34:56:78:9a:bd
+  ip address add 192.0.2.1/30 dev usb0
+  ip link set dev usb0 up
+
+  # Creating the bridge interface
+  ip link add name $bridgeName type bridge
+  ip link set dev $bridgeName up
+
+  # Bridging the interfaces
+  ip link set dev usb0 master $bridgeName
+  ip link set dev $etherInterface master $bridgeName
+fi
+
+
+if [ "$1" == 'stop' ]; then
+  ip link set dev $etherInterface nomaster
+  ip link set dev usb0 nomaster
+  ip link delete dev $bridgeName
+
+  rmmod g_ether
+  ip link delete dev usb0
+fi
