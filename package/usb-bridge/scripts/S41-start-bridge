@@ -40,5 +40,11 @@ case "$1" in
     rmmod g_ether
     rmmod dwc3-of-simple
     rmmod dwc3-rockchip-inno
+
+    # Getting the eth0 interface back to normal
+    ip link set dev $etherInterface down
+    ip address add 0.0.0.0 dev $etherInterface
+    ip link set dev $etherInterface up
+    udhcpc -i $etherInterface
   ;;
 esac
