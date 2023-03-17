@@ -6,7 +6,7 @@
 
 USB_BRIDGE_VERSION = 0.0.1
 USB_BRIDGE_LICENSE = GPL-3.0+
-USB_BRIDGE_SITE = /home/gabriel/Documents/Projects/buildroot.rockchip.ext/package/usb-bridge/scripts
+USB_BRIDGE_SITE = $(BR2_EXTERNAL)/package/usb-bridge/scripts
 USB_BRIDGE_SITE_METHOD = local
 USB_BRIDGE_STAGING=YES
 
