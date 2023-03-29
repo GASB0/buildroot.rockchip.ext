@@ -1,0 +1,7 @@
+verbosity=8
+imgpart=UUID= 
+imgfile=volumio_current.sqsh 
+bootpart=UUID= 
+datapart=UUID= 
+bootconfig=varsVolumio.txt 
+hwver=rock3a
