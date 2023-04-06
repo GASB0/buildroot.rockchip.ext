@@ -1,0 +1,28 @@
+# NOTE: Part of this script runs on the raspberry pi
+
+# This should be ran in the slave
+## Setting the default gateway
+wiredInterface='usb0'
+wirelessInterface='wlan0'
+ip link set dev $wiredInterface down
+ip addr flush dev $wiredInterface
+ip addr add 192.168.1.2/24 dev $wiredInterface
+ip link set dev $wiredInterface up
+ip route add default via 192.168.1.1
+### NOTE: After setting down the eth0 interface, if you want to use it again you have to run udhcpc -i eth0
+
+
+# This should be ran in the "bridge" device
+## Enable forwarding between network interfaces:
+sudo echo 1 > /proc/sys/net/ipv4/ip_forward
+
+# sudo ip -4 addr show dev wlp0s20f3 | grep -oP '(?<=inet\s)\d+(\.\d+){3}'
+
+sudo ip link set dev $wiredInterface down
+sudo ip addr flush dev $wiredInterface
+sudo ip addr add 192.168.1.1/24 dev $wiredInterface
+sudo ip link set dev $wiredInterface up
+sudo iptables -t nat -A POSTROUTING -o $wirelessInterface -s 192.168.1.2/24 -j MASQUERADE 
+sudo iptables -t nat -A POSTROUTING -o $wirelessInterface -m iprange --src-range 192.168.1.1-192.168.1.250 -j MASQUERADE
+## Make sure that the ip range specified in the IP table is the same as the configured
+## udhcpd lease block
