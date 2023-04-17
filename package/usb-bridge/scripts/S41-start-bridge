@@ -27,7 +27,7 @@ case "$1" in
     brctl stp $bridgeName on
     ip link set dev $bridgeName up
 
-    udhcpc -i $bridgeName
+    udhcpc -i $bridgeName -qnR
 
     # FIXME: This works, but a more elegant solution is needed
     ip address flush dev $etherInterface
@@ -49,6 +49,6 @@ case "$1" in
     ip link set dev $etherInterface down
     ip address add 0.0.0.0 dev $etherInterface
     ip link set dev $etherInterface up
-    udhcpc -i $etherInterface
+    udhcpc -i $etherInterface -qnR
   ;;
 esac

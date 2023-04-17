@@ -24,5 +24,37 @@ sudo ip addr add 192.168.1.1/24 dev $wiredInterface
 sudo ip link set dev $wiredInterface up
 sudo iptables -t nat -A POSTROUTING -o $wirelessInterface -s 192.168.1.2/24 -j MASQUERADE 
 sudo iptables -t nat -A POSTROUTING -o $wirelessInterface -m iprange --src-range 192.168.1.1-192.168.1.250 -j MASQUERADE
-## Make sure that the ip range specified in the IP table is the same as the configured
-## udhcpd lease block
+
+
+# New try using proxy arp
+## Creating a subnet for the wired interfaces:
+## NOTE: This script only works for 24 bit mask networks so far
+wirelessInterface='wlp0s20f3'
+wiredInterface='usb0'
+wirelessInterfaceIPV4Info=$(ip -o -f inet addr show dev $wirelessInterface | awk '/scope global/ {print $4}' | tr / '\t')
+
+sudo -S su << EOF
+ echo 1 > /proc/sys/net/ipv4/conf/all/proxy_arp;
+ echo 1 > /proc/sys/net/ipv4/ip_forward;
+EOF
+
+wirelessInterfaceIP=$(echo $wirelessInterfaceIPV4Info | awk '{print $1}')
+mainNetMask=$(echo $wirelessInterfaceIPV4Info | awk '{print $2}')
+
+rpiWiredIP=$(echo $wirelessInterfaceIP | sed -e 's/\(.*\)\.[0-9]\{1,\}/\1.253/g')
+cm3WiredIP=$(echo $wirelessInterfaceIP | sed -e 's/\(.*\)\.[0-9]\{1,\}/\1.254/g')
+secondaryNetMask='30'
+
+sudo ip link set dev $wiredInterface down
+sudo ip addr flush dev $wiredInterface
+sudo ip addr add $rpiWiredIP/$secondaryNetMask dev $wiredInterface
+sudo ip link set $wirelessInterface promisc on
+sudo ip link set dev $wiredInterface up
+
+echo "####################################################################"
+echo "You have to set the $wiredInterface on the CM3 board to $cm3WiredIP"
+echo "and set it your default gateway to finish the configuration"
+echo "####################################################################"
+
+## For more info go to:
+## https://raspberrypi.stackexchange.com/questions/88954/workaround-for-a-wifi-bridge-on-a-raspberry-pi-with-proxy-arp
