@@ -4,6 +4,7 @@ PLAT=$2         # second argument is the platform name
 LINUX_DIR=$3    # third argument is the linux src directory
 MODEL=$4        # the third argument is the model
 MKIMAGE=$5
+ubootName=$6
 VOL_PLAT_DIR=$BINARIES_DIR/volumio/platform-$PLAT
 VOL_DIR=$VOL_PLAT_DIR/$MODEL
 boardDir=`dirname $0 | while read a; do cd $a && pwd && break; done`
@@ -18,7 +19,7 @@ rm -f $BINARIES_DIR/$MODEL.tar.xz
 mkdir -p $VOL_DIR/u-boot
 cp $BINARIES_DIR/trust.img $VOL_DIR/u-boot/trust.bin
 cp $BINARIES_DIR/idbloader.img $VOL_DIR/u-boot/idbloader.bin
-cp $BINARIES_DIR/uboot.img $VOL_DIR/u-boot/uboot.img
+cp $ubootName/uboot.img $VOL_DIR/u-boot/uboot.img
 # cp $BINARIES_DIR/u-boot.itb $VOL_DIR/u-boot/uboot.img
 #cp $BINARIES_DIR/boot.scr $VOL_DIR/u-boot/
 #boot
@@ -48,7 +49,7 @@ cp -a $BINARIES_DIR/../target/lib/modules/* $VOL_DIR/lib/modules
 cp -a $BINARIES_DIR/../target/lib/firmware $VOL_DIR/lib
 # patches
 mkdir $VOL_DIR/patches
-cp -a $boardDir/../../patches/linux/* $VOL_DIR/patches
+cp -a $boardDir/../../patches.rock3a/linux/* $VOL_DIR/patches
 echo creating tar.xz file
 pushd $VOL_PLAT_DIR
 tar cfJ $MODEL.tar.xz $MODEL

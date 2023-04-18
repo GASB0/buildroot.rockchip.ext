@@ -46,9 +46,10 @@ echo use the following command ...
 echo
 echo 'OF=/dev/sdc; rootDrive=`mount | grep " / " | grep $OF`; if [ -z $rootDrive ]; then sudo umount $OF[123456789]; sudo dd if=output/images/sdcard.img of=$OF bs=10M; else echo you are trying to overwrite your root drive; fi'
 echo
+
 # generate Volumio requirements
 echo "Executing trust image generation:"
 #make the trust image
 ${boardDir}/mkRk3568Trust.bin.sh ${BINARIES_DIR} ${RKBIN} trust.img
 
-${boardDir}/mkRK3568Volumio.bin.sh ${BINARIES_DIR} rk3568 $linuxDir rock3a $ubootName/tools/mkimage
+${boardDir}/mkRK3568Volumio.bin.sh ${BINARIES_DIR} rk3568 $linuxDir rock3a $ubootName/tools/mkimage ${ubootName}
