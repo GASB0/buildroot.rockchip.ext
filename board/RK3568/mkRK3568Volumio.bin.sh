@@ -25,7 +25,7 @@ cp $ubootName/uboot.img $VOL_DIR/u-boot/uboot.img
 #boot
 mkdir -p $VOL_DIR/boot
 cp $BINARIES_DIR/vars.txt $VOL_DIR/boot/
-$MKIMAGE -C none -A arm -T script -d ${boardDir}/bootVolumio.cmd $BINARIES_DIR/bootVolumio.scr
+$MKIMAGE -C none -A arm -T script  -a 0x00c00000 -e 0x00c00000 -n 'flatmax init script' -d ${boardDir}/bootVolumio.cmd $BINARIES_DIR/bootVolumio.scr
 cp $BINARIES_DIR/bootVolumio.scr $VOL_DIR/boot/boot.scr
 cp ${boardDir}/varsVolumio.txt $VOL_DIR/boot/
 # Linux

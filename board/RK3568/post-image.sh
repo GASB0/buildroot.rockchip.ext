@@ -52,4 +52,4 @@ echo "Executing trust image generation:"
 #make the trust image
 ${boardDir}/mkRk3568Trust.bin.sh ${BINARIES_DIR} ${RKBIN} trust.img
 
-${boardDir}/mkRK3568Volumio.bin.sh ${BINARIES_DIR} rk3568 $linuxDir rock3a $ubootName/tools/mkimage ${ubootName}
+${boardDir}/mkRK3568Volumio.bin.sh ${BINARIES_DIR} rk3568 $linuxDir rock3a $HOST_DIR/bin/mkimage ${ubootName}
