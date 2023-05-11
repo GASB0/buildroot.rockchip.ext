@@ -7,7 +7,7 @@ load mmc ${devnum} ${load_addr} vars.txt
 env import -t ${load_addr} ${filesize}
 
 echo Loading the fdt and kernel
-fatload mmc ${devnum}:${distro_bootpart} ${fdt_addr_r} ${fdt_name}
+fatload mmc ${devnum}:${distro_bootpart} ${fdt_addr_r} ${fdtfile}
 fatload mmc ${devnum}:${distro_bootpart} ${kernel_addr_r} ${kernel_name}
 
 echo "Setting up fdt for overlays"

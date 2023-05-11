@@ -1,2 +1,4 @@
 overlays=
 fdtfile=rockchip/rk3568-rock-3a.dtb
+kernel_name=Image
+distro_bootpart=1

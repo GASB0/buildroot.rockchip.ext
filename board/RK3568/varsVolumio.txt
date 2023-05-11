@@ -6,4 +6,3 @@ datapart=UUID=
 bootconfig=varsVolumio.txt 
 hwver=rock3a
 overlays=
-fdtfile=rockchip/rk3568-rock-3a.dtb
