@@ -1,3 +1,7 @@
+echo "Some debbuging information:"
+bootdev list -p
+fatls mmc 1:1 /
+
 echo "Setting defaults"
 setenv load_addr "0x6000000"
 echo Set the load address to ${load_addr}
@@ -32,7 +36,7 @@ load mmc ${devnum} ${load_addr} varsVolumio.txt
 env import -t ${load_addr} ${filesize}
 
 echo Setting volumioargs
-setenv volumioargs "imgpart=${imgpart} imgfile=${imgfile} bootpart=${bootpart} datapart=${datapart} bootconfig=${bootconfig} hwdevice=${hwver}"
+setenv volumioargs "imgpart=${imgpart} imgfile=${imgfile}"
 echo image partition: ${imgpart}
 echo image file:      ${imgfile}
 echo boot partition:  ${bootpart}
@@ -40,7 +44,7 @@ echo data partition:  ${datapart}
 echo bootconfig:      ${bootconfig}
 echo hwdevice:        ${hwver}
 echo Setting bootargs
-setenv bootargs "${volumioargs} loglevel=${verbosity} ${extraargs} consoleblank=0 scandelay earlyprintk console=ttyS2,1500000n8 rw rootwait"
+setenv bootargs "${volumioargs} loglevel=${verbosity} ${extraargs} root=${imgpart} consoleblank=0 scandelay earlyprintk console=${console} rw rootwait"
 echo "bootargs:" ${bootargs}
 
 echo Loading the ramdisk

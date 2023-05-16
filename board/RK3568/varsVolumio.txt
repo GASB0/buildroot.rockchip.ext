@@ -1,8 +1,6 @@
 verbosity=8
-imgpart=UUID= 
-imgfile=volumio_current.sqsh 
-bootpart=UUID= 
-datapart=UUID= 
-bootconfig=varsVolumio.txt 
+imgpart=/dev/mmcblk1p2
+imgfile=/volumio_current.sqsh 
+bootpart=/dev/mmcblk1p1 
+datapart=/dev/mmcblk1p3
 hwver=rock3a
-overlays=
