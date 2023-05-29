@@ -1,0 +1,6 @@
+config BR2_PACKAGE_TESTPACKAGE
+  bool "testPackage"
+  help
+    This is a test package using some simple test program
+
+    santos.baez.gabriel.elo@gmail.com

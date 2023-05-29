@@ -1,0 +1,7 @@
+config BR2_PACKAGE_SYSID101
+  bool "sysid101"
+  select BR2_PACKAGE_GTKIOSTREAM
+  help
+    This is the sysid101 from flatmax.
+
+    santos.baez.gabriel.elo@gmail.com
